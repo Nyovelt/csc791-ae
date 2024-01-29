@@ -3,7 +3,7 @@ from row import ROW
 import l 
 
 class DATA:
-    def __init__(self, src, fun=None):
+    def __init__(self, src=None, fun=None):
         self.rows = []
         self.cols = None
         if isinstance(src, str):
@@ -22,7 +22,10 @@ class DATA:
             self.rows.append(self.cols.add(row))
         else:
             self.cols = COLS(row)
-
+    def print(self):
+        print(self.cols)
+        for row in self.rows:
+            row.print()
 
     def mid(self, cols=None):
         u = [col.mid() for col in (cols or self.cols.all)]
