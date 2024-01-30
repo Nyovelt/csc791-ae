@@ -1,0 +1,33 @@
+Task1:
+Class information for file: ../data/diabetes.csv
+Class   Count   Percentage
+positive        268     34.90%
+negative        500     65.10%
+Class information for file: ../data/soybean.csv
+Class   Count   Percentage
+diaporthe-stem-canker   20      2.93%
+charcoal-rot    20      2.93%
+rhizoctonia-root-rot    20      2.93%
+phytophthora-rot        88      12.88%
+brown-stem-rot  44      6.44%
+powdery-mildew  20      2.93%
+downy-mildew    20      2.93%
+brown-spot      92      13.47%
+bacterial-blight        20      2.93%
+bacterial-pustule       20      2.93%
+purple-seed-stain       20      2.93%
+anthracnose     44      6.44%
+phyllosticta-leaf-spot  20      2.93%
+alternarialeaf-spot     91      13.32%
+frog-eye-leaf-spot      91      13.32%
+diaporthe-pod-&-stem-blight     15      2.20%
+cyst-nematode   14      2.05%
+2-4-d-injury    16      2.34%
+herbicide-injury        8       1.17%
+
+Task3:
+Accuracy of the model on test data: 0.99
+
+Task4:
+As m goes up, the accuracy of the model on test data goes down.
+k=3, m=1, as it has the best accuracy.
