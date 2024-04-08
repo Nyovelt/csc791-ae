@@ -54,8 +54,6 @@ class DATA:
         # Print baseline1 and baseline2
         print("1. top6", [round(row.d2h(self),2) for row in rows[:6]])  
         print("2. top50", [round(row.d2h(self),2)  for row in rows[:50]])
-
-        
         lite, dark = rows[:budget0], rows[budget0:]
         best, rest = self.bestRest(lite, len(lite) ** some)
         print("3. most", round(best.rows[0].d2h(self), 2))
@@ -68,7 +66,6 @@ class DATA:
             lite.append(dark.pop(todo))
             print("5. selected", round(stats[i].d2h(self), 2))
             print("6. best", round(bests[i].d2h(self),2))
-        
         return stats, bests
 
 
