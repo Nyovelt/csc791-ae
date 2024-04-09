@@ -1,7 +1,9 @@
 from cols import COLS
 from row import ROW
 import l 
-
+from langchain.prompts import HumanMessagePromptTemplate
+from langchain_core.messages import SystemMessage
+import llm
 class DATA:
     def __init__(self, src=None, fun=None):
         self.rows = []
@@ -105,7 +107,10 @@ class DATA:
     def bestRest(self, rows, want):
         # Sort rows based on distance to heaven
         rows.sort(key=lambda row: row.d2h(self))
-
+        
+        # Sort rows based on LLM
+        rows = llm.sort_rows_with_preference(rows, "more reliable")
+        
         # Initialize 'best' and 'rest' with column names
         best = [self.cols.names]
         rest = [self.cols.names]
