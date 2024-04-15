@@ -1,0 +1,17 @@
+[tool]
+[tool.poetry]
+name = "csc791-ae"
+version = "0.1.0"
+description = ""
+authors = ["canarypwn <canarypwn@aosc.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+langchain = "^0.1.16"
+langchain-experimental = "^0.0.57"
+pandas = "^2.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

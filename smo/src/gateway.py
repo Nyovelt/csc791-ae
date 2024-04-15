@@ -74,4 +74,4 @@ def eg_gate20():
         else:
             print("No data in stats or bests")
 
-eg_gate20()
+eg_gate()

@@ -4,6 +4,7 @@ import l
 from langchain.prompts import HumanMessagePromptTemplate
 from langchain_core.messages import SystemMessage
 import llm
+import pandas as pd
 class DATA:
     def __init__(self, src=None, fun=None):
         self.rows = []
@@ -68,6 +69,23 @@ class DATA:
             lite.append(dark.pop(todo))
             print("5. selected", round(stats[i].d2h(self), 2))
             print("6. best", round(bests[i].d2h(self),2))
+        
+        header = {
+            "Clndrs":[],
+            "Volume":[],
+            "HpX": [],
+            "Model": [],
+            "origin": [],
+            "Lbs-": [],
+            "Acc+": [],
+            "Mpg+": [],
+        }
+        # df = pd.DataFrame(header)
+        # for i in bests.values():
+        #     print(i)
+        #     pd.concat([df, pd.DataFrame(i.cells, columns=header.keys())])
+        # print(df)
+        print(bests)
         return stats, bests
 
 
@@ -109,7 +127,7 @@ class DATA:
         rows.sort(key=lambda row: row.d2h(self))
         
         # Sort rows based on LLM
-        rows = llm.sort_rows_with_preference(rows, "more reliable")
+        # rows = llm.sort_rows_with_preference(rows, "faster and lighter.")
         
         # Initialize 'best' and 'rest' with column names
         best = [self.cols.names]
@@ -124,5 +142,3 @@ class DATA:
 
         # Return new DATA objects created from 'best' and 'rest'
         return DATA(best), DATA(rest)
-
-
