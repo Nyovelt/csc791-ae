@@ -1,0 +1,6 @@
+does SMO do better than the random baselines (see prints 1,2,4)?
+    No
+how many y row evaluations are required for print 3?
+    10
+how does SMO do compared to absolute best (print 3)
+    SMO does better than the absolute best
