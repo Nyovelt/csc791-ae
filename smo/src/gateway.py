@@ -30,11 +30,11 @@ def eg_gate():
     def say(row, txt):
         print(format(row.cells), txt)
 
-    print(format(d.cols.names), "about", "d2h")
-    print("#overall" + "-"*37)
-    sayd(d.mid(), "mid")
-    say(d.div(), "div")
-    say(d.small(), "small=div*" + str(the.cohen))
+    # print(format(d.cols.names), "about", "d2h")
+    # print("#overall" + "-"*37)
+    # sayd(d.mid(), "mid")
+    # say(d.div(), "div")
+    # say(d.small(), "small=div*" + str(the.cohen))
     
     print("#generality" + "-"*37)
     stats, bests = d.gate(budget0, budget, some)
@@ -43,9 +43,14 @@ def eg_gate():
 
 
     print("#specifically" + "-"*63)
+    result = []
     for i, best in bests.items():
         sayd(best, i + budget0)
-
+        result.append(round(best.d2h(d), 2))
+    print(result)
+    
+    
+    
     print("#optimum" + "-"*63)
     d.rows.sort(key=lambda a: a.d2h(d))
     sayd(d.rows[0], len(d.rows))
@@ -59,7 +64,8 @@ def eg_gate():
 # eg_gate()
 
 def eg_gate20():
-    print("#best, mid")
+    # print("#best, mid")
+    result = []
     for i in range(20):
         d = data
         stats, bests = d.gate(4, 16, 0.5)
@@ -70,8 +76,10 @@ def eg_gate20():
             last_best_key = list(bests.keys())[-1]
             stat = stats[last_stat_key]
             best = bests[last_best_key]
-            print("5. best "+ str(round(best.d2h(d), 2)) + "\n" "6. mid " + str(round(stat.d2h(d), 2)))
+            # print("5. best "+ str(round(best.d2h(d), 2)) + "\n" "6. mid " + str(round(stat.d2h(d), 2)))
+            result.append(round(best.d2h(d), 2))
         else:
             print("No data in stats or bests")
+    print(result)
 
-eg_gate()
+eg_gate20()

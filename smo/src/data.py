@@ -55,19 +55,18 @@ class DATA:
         stats, bests = {}, {}
         rows = l.shuffle(self.rows)  
         # Print baseline1 and baseline2
-        print("1. top6", [round(row.d2h(self),2) for row in rows[:6]])  
-        print("2. top50", [round(row.d2h(self),2)  for row in rows[:50]])
+        # print("1. top6", [round(row.d2h(self),2) for row in rows[:6]])  
+        # print("2. top50", [round(row.d2h(self),2)  for row in rows[:50]])
         lite, dark = rows[:budget0], rows[budget0:]
-        best, rest = self.bestRest(lite, len(lite) ** some)
-        print("3. most", round(best.rows[0].d2h(self), 2))
+        # print("3. most", round(best.rows[0].d2h(self), 2))
         for i in range(1, budget + 1):
             best, rest = self.bestRest(lite, len(lite) ** some)
             todo, selected = self.split(best, rest, lite, dark)
-            print("4. rand", round(dark[todo].d2h(self),2))
+            # print("4. rand", round(dark[todo].d2h(self),2))
             stats[i] = selected.mid()
             bests[i] = best.rows[0]
             lite.append(dark.pop(todo))
-            print("5. selected", round(stats[i].d2h(self), 2))
+            # print("5. selected", round(stats[i].d2h(self), 2))
             print("6. best", round(bests[i].d2h(self),2))
         
         header = {
@@ -85,7 +84,7 @@ class DATA:
         #     print(i)
         #     pd.concat([df, pd.DataFrame(i.cells, columns=header.keys())])
         # print(df)
-        print(bests)
+        # print(bests)
         return stats, bests
 
 
@@ -124,10 +123,10 @@ class DATA:
 
     def bestRest(self, rows, want):
         # Sort rows based on distance to heaven
-        rows.sort(key=lambda row: row.d2h(self))
+        # rows.sort(key=lambda row: row.d2h(self))
         
         # Sort rows based on LLM
-        # rows = llm.sort_rows_with_preference(rows, "faster and lighter.")
+        rows = llm.sort_rows_with_preference(rows, " smaller weight and larger Acceleration and larger miles per galon .")
         
         # Initialize 'best' and 'rest' with column names
         best = [self.cols.names]

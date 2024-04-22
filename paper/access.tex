@@ -5,10 +5,28 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{pdfpages}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\newenvironment{human}{
+    \begin{quote}
+    \textbf{Human:}
+}{\end{quote}}
 
+\newenvironment{chatgpt}{
+    \begin{quote}
+    \textbf{LLMs:}
+}{\end{quote}}
 
+\newenvironment{Questions}{
+    \begin{quote}
+    \textbf{Questions:}
+}{\end{quote}}
 
-
+\newenvironment{Answers}{
+    \begin{quote}
+    \textbf{Answers:}
+}{\end{quote}}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -16,8 +34,8 @@
 \doi{10.1109/ACCESS.2017.DOI}
 
 \title{ChoiceMaker: Empowering Sequential Model Optimization with Query Recommendations via Large Language Models}
-\author{\uppercase{Feiran Qin}\authorrefmark{1}}
-\address[1]{North Carolina State University, Raleigh, NC 27606 USA (e-mail: fqin2@ncsu.edu)}
+\author{\uppercase{Feiran (Alex) Qin}\authorrefmark{1}}
+\address[1]{Computer Science Department, North Carolina State University, Raleigh, NC 27695, USA}
 
 
 \tfootnote{
@@ -32,7 +50,7 @@
 {Author \headeretal: Preparation of Papers for IEEE TRANSACTIONS and JOURNALS}
 
 \corresp{
-    % Corresponding author: First A. Author (e-mail: author@ boulder.nist.gov).
+    Corresponding author: Feiran (Alex) Qin (e-mail: fqin2@ncsu.edu).
     }
 
 \begin{abstract}
@@ -115,28 +133,291 @@ where:
     \item $\sqrt{\frac{1}{n} \sum_{i=1}^n (\cdot)}$ takes the square root of the average of these squared differences, yielding the RMSE, a measure of the magnitude of deviation between observed and calculated values.
 \end{itemize}
 
+The SMO algorithm is a method for optimizing the performance of a model by iteratively selecting the best model from a set of models. The SMO algorithm works as follows:
 
+\begin{enumerate}
+    \item \textbf{Shuffling:} The data rows are shuffled initially to randomize their order.
+    \item \textbf{Initial Evaluation:} The method prints the root mean square deviation (d2h) for the first 6 and first 50 rows post-shuffling, providing baseline performance metrics. The choice of row count can be adjusted, noting that this depends on computational resources, Determined by variables \texttt{budget0} and \texttt{budget}.
+    \item \textbf{Data Partitioning:} Rows are split into two groups, \texttt{lite} and \texttt{dark}, based on a specified budget threshold (\texttt{budget0}).
+    \item \textbf{Iterative Evaluation and Selection:}
+        \begin{itemize}
+            \item The method iteratively processes the \texttt{lite} group by partitioning it further into \texttt{best} and \texttt{rest} segments and evaluating them.
+            \item A selection process takes place where certain rows are moved from the \texttt{dark} group to the \texttt{lite} group based on evaluation results.
+            \item Statistical outcomes and best-performing rows from these evaluations are recorded.
+        \end{itemize}
+    \item \textbf{Output:} The method returns two dictionaries, \texttt{stats} (containing mid-point evaluation data of selected rows) and \texttt{bests} (containing the best-performing rows in each iteration).
+\end{enumerate}
 
+The process of selection is based on the RMSE, which is calculated for each row in the \texttt{litSe} group. The RME is used to evaluate the performance of each row, and the best-performing rows are selected for further evaluation. The SMO algorithm iteratively selects the best-performing rows and evaluates them to find the optimal solution. The Best-Rest selection works as follows:
+
+\begin{itemize}
+    \item Initially, the function sorts the input rows based on a specific metric calculated by the \texttt{d2h} method, which presumably stands for "distance to heaven." This metric quantifies how closely each row aligns with a predefined ideal or benchmark, referred to as "heaven"
+    \item \textbf{Partitioning Rows into 'best' and 'rest'}:
+    The function iterates through the sorted rows and divides them into two groups. The division is based on a specified number (want).
+    The first want rows (those closest to heaven) are added to the best list, implying that these rows meet or exceed a certain threshold of desirability or fit.
+    The remaining rows are added to the rest list, indicating that while they are still valid, they do not match the criteria as closely as those in the best group.
+\end{itemize}
 
 \subsection{Large Language Models (LLMs)}
+
+Large Language Models (LLMs) are a class of machine learning models that are trained on large amounts of text data. LLMs are capable of generating human-like text and have been used in a variety of natural language processing tasks, such as text generation, translation, and summarization. LLMs are typically trained on large datasets of text, such as books, articles, and websites, and are able to learn the statistical patterns in the data to generate text that is coherent and grammatically correct. LLMs are typically trained using deep learning techniques, such as neural networks, and are able to learn complex patterns in the data to generate text that is indistinguishable from human-written text. LLMs have been shown to be effective in a variety of natural language processing tasks, and have been used in a variety of applications, such as chatbots, language translation, and text summarization.
+
+The most common LLMs are based on the transformer architecture, which was introduced by Vaswani et al. in 2017. The transformer architecture is a deep learning model that is based on self-attention mechanisms, which allow the model to focus on different parts of the input data to generate output. The transformer architecture has been shown to be effective in a variety of natural language processing tasks, and has been used in a variety of applications, such as language translation, text generation, and text summarization. The transformer architecture has been used to train large language models, such as GPT-2\cite{radford2019language}, GPT-3\cite{brown2020language}, and BERT\cite{devlin2018bert}, which have been shown to be effective in a variety of natural language processing tasks.
+
+Popular large language models currently in use are Commercially models such as ChatGPT-4\cite{chatgpt4} and Claude-AI\cite{claudeai} and Open-source models that can be deployed by oneself like LLaMA v3\cite{llama} and Gemma\cite{gemma}.
+
+
+Tawosi et al.\cite{Tawosi_2023} explores the use of search-based software engineering (SBSE) techniques to optimize the number and combination of examples provided to large language models (LLMs) for few-shot learning. This optimization aims to enhance the models' ability to estimate story points in agile software development tasks. Saparov et al.\cite{saparov2023testing} explores the ability of large language models (LLMs) to perform deductive reasoning using out-of-distribution (OOD) examples. It specifically assesses the LLMs' ability to generalize from simpler proofs to more complex ones across different dimensions: depth, width, and compositional complexity of proofs. 
+
+New perspectives have been brought to traditional machine learning algorithms and software engineering design by LLMs. Assessing the capabilities of LLMs in these areas is still a challenge, especially with new models emerging constantly. The latest version of Llama V3 was released just days ago. Therefore, this paper hopes to replace RMSE with LLMs for providing recommendations on SMO algorithms and conduct an assessment based on that foundation. These assessments will not only evaluate the capabilities of various models but also include evaluations of few-shot learning's scalability.
 
 
 \section{Algorithms}
 \label{sec:algorithms}
 
+In this section, the main discussion focuses on two key issues.
+A. If we replace RMSE with a large language model and explore its potential benefits,
+B. How to reasonably prompt a large language model to achieve desired outcomes.
+
+\subsection{RMSE and LLM}
+Root Mean Squared Error has limitations such as: 
+\begin{itemize}
+    \item RMSE is unaware of the real meaning of data and often mislead by a large single data.
+    \item RMSE is a measure of the magnitude of deviation between observed and calculated values, but it is not a measure of the direction of the deviation.
+    \item RMSE is a measure of the accuracy of a model, with lower values indicating better performance. However, it is not a measure of the quality of the model.
+\end{itemize}
+In essence, RMSE presents the deviation value of this row data, although it can reflect well in data science. However, due to a lack of understanding about the actual meaning of the data, its selection may be theoretically optimal but will not take into account whether it is feasible in real life. Another aspect to consider is that the SMO algorithm learns from the initial selection of top-performing samples. As a result, the quality of this initial selection has a significant impact on subsequent iterations and filtering processes. Therefore, the selection of the initial samples is crucial to the success of the SMO algorithm.
+
+Therefore, this article proposes introducing large language models into the first-best rest selection to help with the choice. In previous algorithms, the "best-rest" approach would sort through data lines based on their Root Mean Squared Error (RMSE), selecting a portion of them as the "best" and relegating the remainder to be considered part of the "rest". Due to concerns about overfitting caused by small local samples, this paper considers introducing large language models to aid in sorting.
+
+The modified Best-Rest selection algorithm works as follows:
+
+Initially, the function sorts based on the user's preferences using a large language model. When the user provides their preference, it will be concatenated into the prompt as input for the large language model. For this large language model, we don't require it to provide a complete ranking; instead, we use "Is A better than B?" as a hint phrase and treat its response as the key for sorting.
+
+The reason we don't use large prediction models to directly output sorted results and instead employ a combination of incremental comparison and sorting algorithms to achieve sorting effectiveness is as follows. Firstly, although SMO algorithm inputs fewer rows during one Best-Rest selection process, when dealing with larger datasets, the number of rows requiring sorting also increases significantly. Many models are limited by maximum input capacity; for instance, web-based ChatGPT can only handle 4,096 characters in each prompt. Moreover, excessive input data may impact decoder performance, especially given that large prediction models typically use big batch sizes and parallel processing to serve requests. Secondly, in some long-term memory-challenged models (e.g., llama2:8b), extremely large input data might affect their ability to sort effectively. We discovered this issue during our early experiments. In summary, we adopted the incremental comparison and sorting algorithm approach for the sake of algorithm universality and precision.
+
+\subsection{Prompting LLMs}
+In this section, we primarily introduce some of the issues that arise when writing prompts for large language models and make certain trade-offs in our design. This includes...
+
+\subsubsection{Identity specification and Data information}
+
+Firstly, we added pre-set identity information to the prompt, such as for a dataset of cars, we preset that an LLM's identity is that of an exceptional car sales consultant. We believe this can enhance relevance and personalization. Secondly, we found that providing detailed column information to LLMs is extremely crucial. Here are some examples below (using llama2:13b model).
+
+\begin{human}
+ ... Here are some data: \\
+ Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+ \\
+ 8,304,193,70,1,4732,18.5,10 \\
+ 8,360,215,70,1,4615,14,10 \\
+ which is faster? ...
+\end{human}
+
+\begin{chatgpt}
+ ... the Volume model is the way to go! ...
+\end{chatgpt}
+
+\begin{human}
+    [Previous Prompts] ... Number of Cylinders, Cylinder capacity, Horsepower, Model of the car, Origin of the car, Weight of the car, Acceleration, Miles per gallon ...
+\end{human}
+
+\begin{chatgpt}
+    ... with its impressive 70 horsepower engine and a svelte weight of only 14 pounds ...
+\end{chatgpt}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[page=1,width=0.5\textwidth]{llm1.pdf}
+    Figure.2 Integrate identity specifications and data information into prompts \label{fig.2}
+  \end{figure}
+ 
+
+From this example, it's clear that if you provide more information about the data itself to LLMs, they will also consider more factors during their thought process. Despite lacking sufficient information, llama2 can still infer the meaning of all column headers. However, it appears that during its logical process, it didn't utilize all columns after all. (In reality, this depends largely on the model's capabilities; LLaMA 3 performs significantly better in this regard compared to LLaMA 2.) Therefore, as shown in Figure \ref{fig2}, identity specification and information about the data have become the prefix information of prompts.
+
+
+\subsubsection{Answer Format}
+
+We found that having LLMs respond with content formatted according to specific guidelines is a challenge, even though the \texttt{llama.cpp} library provides GBNF (GGML BNF) functionality for standardizing output. The GBNF (GGML BNF) format serves as a means of defining formal grammars to govern model outputs in \texttt{llama.cpp}. For instance, you can utilize it to compel the model to generate valid JSON or restrict its responses solely to emojis\cite{llamacpp}. However, this approach cannot be applied universally; particularly not for commercial models and those that don't employ the \texttt{llama.cpp} framework.
+
+We attempted to specify a format for answers within prompts and simplify LLMs' responses as much as possible. We crafted a prompt that reads: "If the first list has [preference], you should answer 'A.' If the second list has more [preference], you should answer 'B.' If both lists have the same [preference], you should answer 'Same.'"
+
+The challenge lies in language models not always responding according to format. So we've added constraints on format in both our suffix and prefix within the prompt, and are using capitalization to emphasize.
+
+\subsubsection{Few-shot Learning}
+
+Few-shot learning for Large Language Models (LLMs) involves the ability of these models to quickly adapt to new tasks or understand new types of queries with very limited examples, often provided directly in the prompt. This approach leverages the vast amounts of information these models have learned during their initial training, allowing them to generalize from only a handful of examples provided at inference time\cite{brown2020language}.
+
+We utilize some ground-truth examples as few-shot learning prompts. These examples are selected from the dataset, for instance:
+
+\begin{Questions}
+    "Which car is has more horse power, A or B or Same? A: [4, 140, 86, 82, 1, 2790, 15.6, 30] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?"
+\end{Questions}
+
+\begin{Answers}
+    "A"
+\end{Answers}
+\begin{Questions}
+    "Which car is has more horse Cylinders, A or B or Same? A: [4, 140, 86, 82, 1, 2790, 15.6, 30] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?"
+\end{Questions}
+
+\begin{Answers}
+    "Same"
+\end{Answers}
+
+We also tried using abstract concepts instead of ground truth to prompt the model, for instance asking about reliability rather than specific models or production methods. However, after comparison we found no improvement and there was still controversy over answer selection.
+
+In essence, we employ example-based approaches for few-shot learning. This setup also facilitates subsequent evaluation to test the differences between zero-shot and \{2, 4, 8\}-shot learnings.
+
 \section{Methods}
 \label{sec:methods}
+\subsection{Data}
+I chose Auto93 as my primary dataset for evaluation. The "Auto MPG" dataset, often referred to as the "auto-mpg" or sometimes as "auto93" dataset, is a popular dataset used for regression analysis tasks in machine learning. It originates from the UCI Machine Learning Repository and includes data about various cars, specifically focusing on their fuel consumption\cite{auto_mpg_1993}.
 
+The dataset includes information about cars from the 1970s and early 1980s. Key features in the dataset typically include in Table \ref{tbl.1}.
+
+
+\begin{table*}[h!]
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{9cm}|}
+    \hline
+    \textbf{Feature} & \textbf{Description} \\
+    \hline
+    MPG & The target variable, representing the fuel efficiency in miles per gallon. \\
+    \hline
+    Cylinders & The number of cylinders in the car's engine. \\
+    \hline
+    Displacement & The engine displacement, measured in cubic inches. \\
+    \hline
+    Horsepower & The power output of the engine, measured in horsepower. \\
+    \hline
+    Weight & The vehicle's weight in pounds. \\
+    \hline
+    Acceleration & The time (in seconds) it takes for the vehicle to accelerate from 0 to 60 mph. \\
+    \hline
+    Model Year & The year of the car model. \\
+    \hline
+    Origin & The origin of the car's manufacturer. \\
+    \hline
+    Car Name & The make and model of the car. \\
+    \hline
+    \end{tabular}
+    \caption{Description of the Auto93 dataset features}
+    \label{tbl.1}
+    \end{table*}
+
+To enhance the diversity of our data, we also conducted additional assessments on the Wine Quality dataset. The Wine Quality dataset consists of two datasets that are related to red and white variants of the Portuguese "Vinho Verde" wine. Below are the key features and details of this dataset, which are used to predict the quality of the wine on a scale from 0 (very bad) to 10 (excellent)\cite{cortez2009}. Key features in the dataset typically include in Table \ref{tbl.2}.
+
+\begin{table*}[h!]
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{8cm}|}
+    \hline
+    \textbf{Feature} & \textbf{Description} \\
+    \hline
+    Fixed acidity & Measures the amount of tartaric acid in the wine, which is crucial for the color, balance, and taste of the wine. \\
+    \hline
+    Volatile acidity & The amount of acetic acid in wine, which at too high of levels can lead to an unpleasant vinegar taste. \\
+    \hline
+    Citric acid & Found in small quantities, citric acid can add 'freshness' and flavor to wines. \\
+    \hline
+    Residual sugar & The amount of sugar remaining after fermentation stops, it's rare to find wines with less than 1 gram/liter and wines with greater than 45 grams/liter are considered sweet. \\
+    \hline
+    Chlorides & The amount of salt in the wine. \\
+    \hline
+    Free sulfur dioxide & The free form of SO\(_2\) exists in equilibrium between molecular SO\(_2\) (as a dissolved gas) and bisulfite ion; it prevents microbial growth and the oxidation of wine. \\
+    \hline
+    Total sulfur dioxide & Amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine. \\
+    \hline
+    Density & The density of wine is close to that of water depending on the percent alcohol and sugar content. \\
+    \hline
+    pH & Describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic); most wines are between 3-4 on the pH scale. \\
+    \hline
+    Sulphates & A wine additive which can contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial and antioxidant. \\
+    \hline
+    Alcohol & The percent alcohol content of the wine. \\
+    \hline
+    Quality (target) & Score between 0 and 10. \\
+    \hline
+    \end{tabular}
+    \caption{Features of the Wine Quality dataset}
+    \label{tbl.2}
+    \end{table*}
+    
+\subsection{Experiment Set up}
+
+During evaluation, large language models are employed as shown in Table \ref{tbl.3}. We conducted multiple experiments, with the theme of evaluating the LLaMA 3:8B model. As for our experimental results and questions we want to answer, they are as follows:
+
+\subsubsection{Comparison between SMO with RMSE and SMO with LLMs}
+The primary experiment is a comparison between the differences of using SMO with and without LLMs, as well as comparing it to using SMO with only RMSE. We employed Llama 3 as our large language model to provide guidance for the SMO algorithm, and conducted evaluations on two datasets: Auto93 and Wine Quality. As before, we used RMSE as our evaluation metric; performed 20 rounds of random experiments; compared the results' RMSE values from using SMO with only RMSE versus using it with LLMs in each round's experiment result. Additionally, we also compared the average RMSE value for each filtered trial during those 20 attempts. As a default setting, we employ an 8-shot approach in few-shot learning.
+\subsubsection{Comparative testing with varying numbers of few-shot instances}
+We will attempt to fine-tune models using zero shot learning (no examples), one example per class for one shot learning and four examples per class for four shots. We will also explore eight shots and sixteen shots where we have eight or sixteen examples respectively. The dataset we use is Auto-93. The experimental indicators are the average Root Mean Squared Error (RMSE) of 20 random test results. We hope to explore how different quantities of few-shot learning affect accuracy.
+
+\subsubsection{Cost-performance considerations for various large language models}
+
+In this experiment, we will compare the cost-performance ratios of various large-scale language models. We will evaluate models of different sizes and complexities, including ChatGPT-4, LLaMA3, LLaMA2:8B, and LLaMA2:13B among others. To assess these models' performance in terms of accuracy, speed, and computational resource requirements we will use the Auto93 dataset and 8-shot-learning to evaluate them.
+
+\subsection{Evaluation metrics}
+We use Root Mean Square Error (RMSE) as our primary evaluation metric. RMSE is a standard way to measure the error of a model in predicting quantitative data. The formula for RMSE is:
+
+\begin{equation}
+    RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(\lvert y_i - \hat{y}_i \rvert )^2}
+\end{equation}
+
+where $y_i$ is the actual value, $\hat{y}_i$ is the predicted value, and $n$ is the number of observations. Lower RMSE values indicate better fit.
+
+We will conduct twenty random experiments and use the best-selected RMSE value as an evaluation metric. When comparing each other, we will display the average RMSE values of all twenty experiments for each experiment result. In cases where multiple methods are compared, we will display the overall average of all 20 experimental results' RMSE values.
+
+\subsection{Statistical Methods}
+To perform significance and effect size tests on the RMSE from two experimental methods where each method has been tested 20 times, we follow these steps:
+
+\subsubsection*{Significance Test using t-test}
+The t-test for two independent samples is given by:
+\begin{equation}
+    t = \frac{\overline{X}_1 - \overline{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+\end{equation}
+where $\overline{X}_1$ and $\overline{X}_2$ are the means of the RMSEs for each method, $s_1^2$ and $s_2^2$ are the variances, and $n_1$ and $n_2$ are the sample sizes (both 20).
+
+This will tell if the difference in RMSE between the two models is statistically significant.
+
+\subsubsection*{Effect Size Test using Cohen's d}
+Cohen's d for independent measures is calculated as:
+\begin{equation}
+    d = \frac{\overline{X}_1 - \overline{X}_2}{s_{pooled}}
+\end{equation}
+with the pooled standard deviation defined as:
+\begin{equation}
+    s_{pooled} = \sqrt{\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}
+\end{equation}
+The resulting Cohen's d would tell the size of the effect in standardized units.
+\begin{table*}[h!]
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+    \hline
+    \textbf{Model} & \textbf{Bits} & \textbf{Description} \\
+    \hline
+    ChatGPT-4 & N/A & An advanced language model by OpenAI with enhanced reasoning, context awareness, and depth of knowledge. \\
+    \hline
+    LLaMA2 & 8-bit & Meta's efficiency-focused model offering reduced computational requirements while maintaining high language task performance. \\
+    \hline
+    LLaMA2 & 13-bit & Similar to the 8-bit version, but with potentially greater accuracy and computational efficiency balance. \\
+    \hline
+    LLaMA3 & 8-bit & The latest in the LLaMA series, optimized for language understanding and computational efficiency. \\
+    \hline
+    \end{tabular}
+    \caption{Summary of Advanced AI Language Models}
+    \label{tbl.3}
+    \end{table*}
 
 \section{Results}
 \label{sec:results}
+\subsubsection{Comparison between SMO with RMSE and SMO with LLMs}
+\begin{figure}
+    \centering
+    \includegraphics[page=1,width=0.5\textwidth]{llama3_8b_vs_rmse.png}
+    Figure.3 Comparison between SMO with RMSE and SMO with LLMs (Single Run) \label{fig.3}
+  \end{figure}
 
 \section{Discussion}
 \label{sec:discussion}
 
 \section{Conclusion}
 \label{sec:conclusion}
-
 
 
 % \appendices
@@ -151,8 +432,6 @@ where:
 
 \begin{thebibliography}{00}
 
-
-
 \bibitem{10352439}Long, D., Drylie, S., Ritschel, J. \& Koschnick, C. An Assessment of Rules of Thumb for Software Phase Management, and the Relationship Between Phase Effort and Schedule Success. {\em IEEE Transactions On Software Engineering}. \textbf{50}, 209-219 (2024)
 
 \bibitem{yy} Yuanyuan Zhou, Keynote address, IEEE Automated Software Engineering conference, San Diego, California, USA, 2019. 
@@ -165,92 +444,77 @@ where:
 
 \bibitem{791} Tim Menzies. Automated Software Engineering (2024 Spring) \emph{https://github.com/txt/aa24/tree/main}. 
 
-\bibitem{b1} G. O. Young, ``Synthetic structure of industrial plastics,'' in \emph{Plastics,} 2\textsuperscript{nd} ed., vol. 3, J. Peters, Ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15--64.   
+\bibitem{Tawosi_2023} V. Tawosi, S. Alamir, and X. Liu, 
+``Search-Based Optimisation of LLM Learning Shots for Story Point Estimation,'' 
+in \emph{Lecture Notes in Computer Science}, 
+Springer Nature Switzerland, 2023, pp. 123-129.
+\textsc{doi}: \url{10.1007/978-3-031-48796-5_9}.
 
-\bibitem{b2} W.-K. Chen, \emph{Linear Networks and Systems.} Belmont, CA, USA: Wadsworth, 1993, pp. 123--135.
+\bibitem{saparov2023testing}
+Abulhair Saparov, Richard Yuanzhe Pang, Vishakh Padmakumar, Nitish Joshi, Seyed Mehran Kazemi, Najoung Kim, and He He.
+\textit{Testing the General Deductive Reasoning Capacity of Large Language Models Using OOD Examples},
+arXiv preprint arXiv:2305.15269, 2023.
 
-\bibitem{b3} J. U. Duncombe, ``Infrared navigation---Part I: An assessment of feasibility,'' \emph{IEEE Trans. Electron Devices}, vol. ED-11, no. 1, pp. 34--39, Jan. 1959, 10.1109/TED.2016.2628402.
 
-\bibitem{b4} E. P. Wigner, ``Theory of traveling-wave optical laser,'' \emph{Phys. Rev}., vol. 134, pp. A635--A646, Dec. 1965.
+\bibitem{radford2019language}
+Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever.
+\textit{Language Models are Unsupervised Multitask Learners},
+OpenAI Blog, 2019.
+URL: \url{https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf}
 
-\bibitem{b5} E. H. Miller, ``A note on reflector arrays,'' \emph{IEEE Trans. Antennas Propagat}., to be published.
+\bibitem{brown2020language}
+Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei.
+\textit{Language Models are Few-Shot Learners},
+arXiv preprint arXiv:2005.14165, 2020.
 
-\bibitem{b6} E. E. Reber, R. L. Michell, and C. J. Carter, ``Oxygen absorption in the earth's atmosphere,'' Aerospace Corp., Los Angeles, CA, USA, Tech. Rep. TR-0200 (4230-46)-3, Nov. 1988.
+\bibitem{devlin2018bert}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\textit{BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL), 2018.
+arXiv preprint arXiv:1810.04805.
 
-\bibitem{b7} J. H. Davis and J. R. Cogdell, ``Calibration program for the 16-foot antenna,'' Elect. Eng. Res. Lab., Univ. Texas, Austin, TX, USA, Tech. Memo. NGL-006-69-3, Nov. 15, 1987.
 
-\bibitem{b8} \emph{Transmission Systems for Communications}, 3\textsuperscript{rd} ed., Western Electric Co., Winston-Salem, NC, USA, 1985, pp. 44--60.
+\bibitem{chatgpt4}
+OpenAI.
+\textit{Introducing ChatGPT-4},
+OpenAI Blog, 2023.
+URL: \url{https://openai.com/blog/chatgpt-4}
 
-\bibitem{b9} \emph{Motorola Semiconductor Data Manual}, Motorola Semiconductor Products Inc., Phoenix, AZ, USA, 1989.
+\bibitem{claudeai}
+Anthropic.
+\textit{Claude: A helpful, honest, and harmless AI},
+Anthropic Blog, 2023.
+URL: \url{https://www.anthropic.com/claude}
 
-\bibitem{b10} G. O. Young, ``Synthetic structure of industrial
-plastics,'' in Plastics, vol. 3, Polymers of Hexadromicon, J. Peters,
-Ed., 2\textsuperscript{nd} ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15-64.
-[Online]. Available:
-\underline{http://www.bookref.com}.
+\bibitem{llama}
+Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aurélien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample.
+\textit{LLaMA: Open and efficient foundation language models},
+arXiv preprint arXiv:2302.13971, 2023.
 
-\bibitem{b11} \emph{The Founders' Constitution}, Philip B. Kurland
-and Ralph Lerner, eds., Chicago, IL, USA: Univ. Chicago Press, 1987.
-[Online]. Available: \underline{http://press-pubs.uchicago.edu/founders/}
+\bibitem{gemma}
+Google Research.
+\textit{Introducing Gemma: Google's Generative Model for Multitask Applications},
+Google AI Blog, 2023.
+URL: \url{https://ai.googleblog.com/2023/gemma}
 
-\bibitem{b12} The Terahertz Wave eBook. ZOmega Terahertz Corp., 2014.
-[Online]. Available:
-\underline{http://dl.z-thz.com/eBook/zomega\_ebook\_pdf\_1206\_sr.pdf}. Accessed on: May 19, 2014.
+\bibitem{llamacpp}
+Georgi Gerganov,
+\textit{README for llama.cpp grammars}.
+GitHub repository,
+2024.
+\url{https://github.com/ggerganov/llama.cpp/blob/master/grammars/README.md}.
+Accessed: April 21, 2024.
 
-\bibitem{b13} Philip B. Kurland and Ralph Lerner, eds., \emph{The
-Founders' Constitution.} Chicago, IL, USA: Univ. of Chicago Press,
-1987, Accessed on: Feb. 28, 2010, [Online] Available:
-\underline{http://press-pubs.uchicago.edu/founders/}
+\bibitem{auto_mpg_1993}
+R. Quinlan (1993). Auto MPG. UCI Machine Learning Repository. Available: \url{https://doi.org/10.24432/C5859H}
 
-\bibitem{b14} J. S. Turner, ``New directions in communications,'' \emph{IEEE J. Sel. Areas Commun}., vol. 13, no. 1, pp. 11-23, Jan. 1995.
-
-\bibitem{b15} W. P. Risk, G. S. Kino, and H. J. Shaw, ``Fiber-optic frequency shifter using a surface acoustic wave incident at an oblique angle,'' \emph{Opt. Lett.}, vol. 11, no. 2, pp. 115--117, Feb. 1986.
-
-\bibitem{b16} P. Kopyt \emph{et al., ``}Electric properties of graphene-based conductive layers from DC up to terahertz range,'' \emph{IEEE THz Sci. Technol.,} to be published. DOI: 10.1109/TTHZ.2016.2544142.
-
-\bibitem{b17} PROCESS Corporation, Boston, MA, USA. Intranets:
-Internet technologies deployed behind the firewall for corporate
-productivity. Presented at INET96 Annual Meeting. [Online].
-Available: \underline{http://home.process.com/Intranets/wp2.htp}
-
-\bibitem{b18} R. J. Hijmans and J. van Etten, ``Raster: Geographic analysis and modeling with raster data,'' R Package Version 2.0-12, Jan. 12, 2012. [Online]. Available: \underline {http://CRAN.R-project.org/package=raster} 
-
-\bibitem{b19} Teralyzer. Lytera UG, Kirchhain, Germany [Online].
-Available:
-\underline{http://www.lytera.de/Terahertz\_THz\_Spectroscopy.php?id=home}, Accessed on: Jun. 5, 2014
-
-\bibitem{b20} U.S. House. 102\textsuperscript{nd} Congress, 1\textsuperscript{st} Session. (1991, Jan. 11). \emph{H. Con. Res. 1, Sense of the Congress on Approval of}  \emph{Military Action}. [Online]. Available: LEXIS Library: GENFED File: BILLS
-
-\bibitem{b21} Musical toothbrush with mirror, by L.M.R. Brooks. (1992, May 19). Patent D 326 189 [Online]. Available: NEXIS Library: LEXPAT File: DES
-
-\bibitem{b22} D. B. Payne and J. R. Stern, ``Wavelength-switched pas- sively coupled single-mode optical network,'' in \emph{Proc. IOOC-ECOC,} Boston, MA, USA, 1985, pp. 585--590.
-
-\bibitem{b23} D. Ebehard and E. Voges, ``Digital single sideband detection for interferometric sensors,'' presented at the \emph{2\textsuperscript{nd} Int. Conf. Optical Fiber Sensors,} Stuttgart, Germany, Jan. 2-5, 1984.
-
-\bibitem{b24} G. Brandli and M. Dick, ``Alternating current fed power supply,'' U.S. Patent 4 084 217, Nov. 4, 1978.
-
-\bibitem{b25} J. O. Williams, ``Narrow-band analyzer,'' Ph.D. dissertation, Dept. Elect. Eng., Harvard Univ., Cambridge, MA, USA, 1993.
-
-\bibitem{b26} N. Kawasaki, ``Parametric study of thermal and chemical nonequilibrium nozzle flow,'' M.S. thesis, Dept. Electron. Eng., Osaka Univ., Osaka, Japan, 1993.
-
-\bibitem{b27} A. Harrison, private communication, May 1995.
-
-\bibitem{b28} B. Smith, ``An approach to graphs of linear forms,'' unpublished.
-
-\bibitem{b29} A. Brahms, ``Representation error for real numbers in binary computer arithmetic,'' IEEE Computer Group Repository, Paper R-67-85.
-
-\bibitem{b30} IEEE Criteria for Class IE Electric Systems, IEEE Standard 308, 1969.
-
-\bibitem{b31} Letter Symbols for Quantities, ANSI Standard Y10.5-1968.
-
-\bibitem{b32} R. Fardel, M. Nagel, F. Nuesch, T. Lippert, and A. Wokaun, ``Fabrication of organic light emitting diode pixels by laser-assisted forward transfer,'' \emph{Appl. Phys. Lett.}, vol. 91, no. 6, Aug. 2007, Art. no. 061103.~
-
-\bibitem{b33} J. Zhang and N. Tansu, ``Optical gain and laser characteristics of InGaN quantum wells on ternary InGaN substrates,'' \emph{IEEE Photon. J.}, vol. 5, no. 2, Apr. 2013, Art. no. 2600111
-
-\bibitem{b34} S. Azodolmolky~\emph{et al.}, Experimental demonstration of an impairment aware network planning and operation tool for transparent/translucent optical networks,''~\emph{J. Lightw. Technol.}, vol. 29, no. 4, pp. 439--448, Sep. 2011.
+\bibitem{cortez2009}
+Paulo Cortez, A. Cerdeira, F. Almeida, T. Matos, and J. Reis (2009). 
+\textit{Wine Quality}. 
+UCI Machine Learning Repository. 
+Available: \url{https://archive.ics.uci.edu/ml/datasets/Wine+Quality}
 
 \end{thebibliography}
-
 % \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a1.png}}]{First A. Author} (M'76--SM'81--F'87) and all authors may include 
 % biographies. Biographies are often not included in conference-related
 % papers. This author became a Member (M) of IEEE in 1976, a Senior
