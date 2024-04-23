@@ -34,22 +34,22 @@ columns_prompt_info = {
 }
 
 examples = [
-    # {
-    #     "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 140, 86, 82, 1, 2790, 15.6, 30] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?",
-    #     "answer": "B",
-    # },
-    # {
-    #     "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 91, 60, 78, 3, 1800, 16.4, 40] B: [4, 91, 68, 82, 3, 2025, 18.2, 40]?",
-    #     "answer": "B"
-    # },
-    # {
-    #     "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 91, 68, 82, 3, 2025, 18.2, 40] B: [4, 90, 48, 80, 2, 2335, 23.7, 40]?",
-    #     "answer": "B",
-    # },
-    # {
-    #     "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [8, 302, 129, 75, 1, 3169, 12, 10] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?",
-    #     "answer": "A"
-    # },
+    {
+        "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 140, 86, 82, 1, 2790, 15.6, 30] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?",
+        "answer": "B",
+    },
+    {
+        "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 91, 60, 78, 3, 1800, 16.4, 40] B: [4, 91, 68, 82, 3, 2025, 18.2, 40]?",
+        "answer": "B"
+    },
+    {
+        "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [4, 91, 68, 82, 3, 2025, 18.2, 40] B: [4, 90, 48, 80, 2, 2335, 23.7, 40]?",
+        "answer": "B",
+    },
+    {
+        "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon, A or B or Same? A: [8, 302, 129, 75, 1, 3169, 12, 10] B: [4, 91, 67, 82, 3, 1965, 15.7, 30]?",
+        "answer": "A"
+    },
     # {
     #     "question": "Which car is has smaller weight and larger Acceleration and larger miles per galon  , A or B or Same? A: [4, 91, 67, 82, 3, 1965, 15, 40] B: [8,429,208,72,1,4633,11,10]?",
     #     "answer": "A"

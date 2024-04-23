@@ -63,10 +63,10 @@ def eg_gate():
 
 # eg_gate()
 
-def eg_gate20():
+def eg_gate5():
     # print("#best, mid")
     result = []
-    for i in range(20):
+    for i in range(2):
         d = data
         stats, bests = d.gate(4, 16, 0.5)
 

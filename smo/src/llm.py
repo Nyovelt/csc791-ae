@@ -82,7 +82,7 @@ example_prompt = PromptTemplate(
 
 prefer="  smaller weight and larger Acceleration and larger miles per galon  "
 
-prefix = f"You are an excellent car shopping guider. You are tend to make the good choice based on real life experience. You will be provided with two python lists. Each list contains the following parameters: [Number of Cylinders, Cylinder capacity, Horsepower, Model of the car, Origin of the car, Weight of the car, Acceleration, Miles per gallon]. You need to compare the two lists and answer the question. If the first list has {prefer}. you should answer 'A'. If the second list has {prefer}., you should answer 'B'. If both lists are in the same level, you should answer 'Same'. ONLY ANSWER THE LAST QUESTION, NO EXPLNATION IS NEEDED. You will be tiped.\n"
+prefix = f"You are an excellent car shopping guider. You are tend to make the good choice based on real life experience. You will be provided with two python lists. Each list contains the following parameters: [Number of Cylinders, Cylinder capacity, Horsepower, Model of the car, Origin of the car, Weight of the car, Acceleration, Miles per gallon]. You need to compare the two lists and answer the question. If the first list has {prefer}. you should answer 'A'. If the second list has {prefer}., you should answer 'B'. If both lists are in the same level, you should answer 'Same'. EXPLAIN YOUR RESULR. You will be tiped.\n"
 
 prompt = FewShotPromptTemplate(
     examples=examples,
@@ -108,7 +108,7 @@ def sort_rows_with_preference(rows, preference):
             chain = prompt | llm | StrOutputParser()
             # print(chain.invoke({"input": f"Which car is {preference}, A or B or Same? A: {str(rows[j].cells)} B: {str(rows[j+1].cells)}"}))
             respond = chain.invoke({"input": f"Which car is {preference}, A or B or Same? A: {str(rows[j].cells)} B: {str(rows[j+1].cells)}"})
-            # print(respond)
+            print(respond)
             # Find the "Answer" character:
 
             if 'B' in respond:
