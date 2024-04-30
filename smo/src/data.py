@@ -58,7 +58,8 @@ class DATA:
         # print("1. top6", [round(row.d2h(self),2) for row in rows[:6]])  
         # print("2. top50", [round(row.d2h(self),2)  for row in rows[:50]])
         lite, dark = rows[:budget0], rows[budget0:]
-        # print("3. most", round(best.rows[0].d2h(self), 2))
+        best, rest = self.bestRest(lite, len(lite) ** some)
+        print("3. most", round(best.rows[0].d2h(self), 2))
         for i in range(1, budget + 1):
             best, rest = self.bestRest(lite, len(lite) ** some)
             todo, selected = self.split(best, rest, lite, dark)
@@ -84,7 +85,7 @@ class DATA:
         #     print(i)
         #     pd.concat([df, pd.DataFrame(i.cells, columns=header.keys())])
         # print(df)
-        # print(bests)
+        print(bests)
         return stats, bests
 
 
